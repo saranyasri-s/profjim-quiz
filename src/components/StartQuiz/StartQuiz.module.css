@@ -43,4 +43,13 @@
     color: #3859f3d6;
     background-color: white;
   }
+  .StartQuiz {
+    width: 90%;
+    margin: auto;
+    margin-top: 12rem;
+  }
+  .quote {
+    color: grey;
+    font-size: 1rem;
+  }
 }

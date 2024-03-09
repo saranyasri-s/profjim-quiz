@@ -1,16 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // apikey
 import apikeyy from "../../openai";
 // css
 import classes from "./ChatComponent.module.css";
+
 // redux
 import { useDispatch, useSelector } from "react-redux";
+import { setQuestions } from "../../store/questionsSlice";
 const ChatComponent = () => {
+  const questions = useSelector((state) => state.questions);
   const selectedSubject = useSelector((state) => state.subject);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const handleGetQnsListinJsonFormat = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: apikeyy,
+            },
+            body: JSON.stringify({
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    "you are a teacher, you have to conduct a quiz in maths subject for a primary school student of 12 qns , 4 qns in 3 topics. give me 12 qns in single javascript array with question in string, options array, topic in string, difficulty level,i want the studentsanswer just as wrong for every question. in a string without three backticks and the word javascript, just give me the array value",
+                },
+                {
+                  role: "user",
+                  content: input,
+                },
+              ],
+              model: "gpt-3.5-turbo",
+            }),
+          }
+        );
 
+        const data = await response.json();
+        console.log(data.choices[0].message.content);
+
+        dispatch(setQuestions(data.choices[0].message.content));
+        setInput("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    handleGetQnsListinJsonFormat();
+  }, []);
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
@@ -62,6 +107,7 @@ const ChatComponent = () => {
 
   return (
     <div className={classes.ChatComponent}>
+      {console.log(questions)}
       <h1> Its your quiz time!</h1>
       <h3> Lets start the quiz</h3>
       <h4> Subject: {selectedSubject}</h4>
@@ -71,16 +117,21 @@ const ChatComponent = () => {
             {message.content}
           </div>
         ))}
+        {questions.length ? (
+          <p>Select the correct answer among the choices given</p>
+        ) : (
+          <p> Please wait, fetching the questions</p>
+        )}
       </div>
       <div className={classes.answers}>
         <input type="text" value={input} onChange={handleInputChange} />
-        <button
+        {/* <button
           className={classes.button}
           onClick={handleSendMessage}
           disabled={loading}
         >
-          {loading ? "Sending..." : "Send"}
-        </button>
+          {loading ? "Loading..." : "Submit"}
+        </button> */}
       </div>
     </div>
   );

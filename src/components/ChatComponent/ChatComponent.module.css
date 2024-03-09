@@ -63,4 +63,12 @@
     color: #3859f3d6;
     background-color: white;
   }
+  .ChatComponent {
+    width: 90%;
+    margin: auto;
+    margin-top: 12rem;
+  }
+  .answers {
+    margin: 1rem;
+  }
 }
