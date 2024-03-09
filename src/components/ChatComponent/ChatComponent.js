@@ -24,6 +24,7 @@ const ChatComponent = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [buttonStatus, setButtonStatus] = useState("Submit");
+
   useEffect(() => {
     const handleGetQnsListinJsonFormat = async () => {
       try {
@@ -172,7 +173,9 @@ const ChatComponent = () => {
                   answerforallQns
                 )}
                 Please provide the feedback and recommendations of topic to study further and improve, along with the calculated score, in the specified JSON format.
-                {feedback:"",recommendations;"",score:"'} in json format, score should should be sum of the studentAnswer for all questions, feedback should be string and no nested objects needed`,
+                {feedback:"",recommendations;"",score:"'} in json format,score is the sum of studentAnswer property from  ${JSON.stringify(
+                  answerforallQns
+                )}, feedback should be string and no nested objects needed`,
               },
               {
                 role: "user",
@@ -230,7 +233,8 @@ const ChatComponent = () => {
               {/* {console.log(feedbackForAnswer)} */}
               <p
                 style={{
-                  backgroundColor: "azure",
+                  color: "blue",
+                  fontStyle: "Italic",
                   padding: "1rem",
                   textTransform: "capitalize",
                 }}
