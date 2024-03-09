@@ -41,7 +41,7 @@ const ChatComponent = () => {
               messages: [
                 {
                   role: "system",
-                  content: `you are a teacher, you have to conduct a quiz for primary school student, please provide a array of 3 questions in ${selectedSubject} covering 3 topics, 1 qns in each topic in the following format {question:"what is 3+4", options:[1,2,7], topic:"addition",difficultyLevel:"easy", studentAnswer:0}, please npote give the array witount any explanations ,just the array in json format`,
+                  content: `you are a teacher, you have to conduct a quiz for primary school student, please provide a array of 12 questions in ${selectedSubject} covering 3 topics,4 qns in each topic in the following format {question:"what is 3+4", options:[1,2,7], topic:"addition",difficultyLevel:"easy", studentAnswer:0}, please note give the array witount any explanations ,just the array in json format`,
                 },
                 {
                   role: "user",

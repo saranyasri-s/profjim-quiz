@@ -3,7 +3,7 @@ import classes from "./App.module.css";
 
 // route
 import { useNavigate } from "react-router-dom";
-import { Routes, Route, NavLink, Navigate } from "react-router-dom";
+import { Routes, Route, NavLink, Navigate, Link } from "react-router-dom";
 
 // child component
 import ChatComponent from "./components/ChatComponent/ChatComponent";
@@ -29,7 +29,13 @@ function App() {
   return (
     <div className={classes.App}>
       <header className={classes.header}>
-        <div className={classes.QuizTime}>QuizTime</div>
+        <Link
+          style={{ textDecoration: "none" }}
+          to="/home"
+          className={classes.QuizTime}
+        >
+          QuizTime
+        </Link>
         {isAuthenticated && (
           <nav>
             <NavLink
