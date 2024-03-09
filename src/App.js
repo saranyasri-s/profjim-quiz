@@ -1,76 +1,62 @@
-import React, { useState } from "react";
-import apikeyy from "./openai";
-const ChatComponent = () => {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
+// css
+import classes from "./App.module.css";
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
+// route
+import { useNavigate } from "react-router-dom";
+import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 
-  const handleSendMessage = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: apikeyy,
-          },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: "system",
-                content:
-                  "As a teacher, you need to conduct a quiz for your students on the subject of science. The quiz consists of 10 questions with 4 options each. The questions are categorized into three levels: easy, hard, and difficult. If a student does not score enough marks in a particular level, the subsequent questions for that student will be of the same level until they achieve a satisfactory score. Additionally, each question is accompanied by feedback and a hint to assist the student.",
-              },
-              {
-                role: "user",
-                content: input,
-              },
-            ],
-            model: "gpt-3.5-turbo",
-          }),
-        }
-      );
+// child component
+import ChatComponent from "./components/ChatComponent/ChatComponent";
+import Profile from "./components/Profile/Profile";
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../src/store/UserSlice";
 
-      const data = await response.json();
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          role: "assistant",
-          content: data.choices[0].message.content,
-        },
-      ]);
+function App() {
+  const isAuthenticated = useSelector((state) => state.user.uid);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-      setInput("");
-    } catch (error) {
-      console.error("Error sending message:", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleLogout = () => {
+    dispatch(clearUser());
+
+    navigate("/");
   };
 
   return (
-    <div>
-      <div>
-        {messages.map((message, index) => (
-          <div key={index} className={message.role}>
-            {message.content}
-          </div>
-        ))}
-      </div>
-      <div>
-        <input type="text" value={input} onChange={handleInputChange} />
-        <button onClick={handleSendMessage} disabled={loading}>
-          {loading ? "Sending..." : "Send"}
-        </button>
-      </div>
+    <div className={classes.App}>
+      <header className={classes.header}>
+        <div className={classes.QuizTime}>QuizTime</div>
+        {isAuthenticated && (
+          <nav>
+            <NavLink
+              to="/profile"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? classes.inactive
+                  : isActive
+                  ? classes.active
+                  : classes.inactive
+              }
+            >
+              Profile
+            </NavLink>
+            <button onClick={handleLogout} className={classes.button}>
+              Logout
+            </button>
+          </nav>
+        )}
+      </header>
+
+      {/* Rendering the component based on route url */}
+      <Routes>
+        <Route
+          path="/profile/:id"
+          element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
+        ></Route>
+      </Routes>
     </div>
   );
-};
+}
 
-export default ChatComponent;
+export default App;

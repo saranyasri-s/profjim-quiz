@@ -1,0 +1,111 @@
+.App {
+  padding: 0 2rem;
+}
+.button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: #3859f3d6;
+  border: 1px solid #3859f3d6;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100px;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  margin: 1rem;
+}
+.button:hover {
+  color: #3859f3d6;
+  background-color: white;
+}
+.header {
+  width: 100%;
+  padding: 0.5rem 2rem 1rem 2rem;
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.156);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.QuizTime {
+  width: 60%;
+  color: #3859f3d6;
+  font-weight: 600;
+  font-size: 2rem;
+}
+.header > nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2rem;
+  font-size: 1.3rem;
+  font-weight: 550;
+}
+.header > nav > a.inactive {
+  padding: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #80808085;
+  font-size: 1.3rem;
+  font-weight: 550;
+}
+.header > nav > a.active {
+  padding: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: #3859f3d6;
+}
+@media (max-width: 900px) {
+  .header > nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    padding: 0.2rem;
+    font-size: 1rem;
+    font-weight: 550;
+  }
+  .header > nav > a.inactive {
+    padding: 0.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: #80808085;
+    font-size: 1rem;
+    font-weight: 550;
+  }
+  .header > nav > a.active {
+    padding: 0.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: #3859f3d6;
+  }
+  .QuizTime {
+    width: 40%;
+  }
+  .button {
+    margin-top: 1rem;
+    padding: 0.2rem;
+    color: white;
+    background-color: #3859f3d6;
+    border: 1px solid #3859f3d6;
+    border-radius: 5px;
+    font-size: 0.5rem;
+    cursor: pointer;
+    width: 50px;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    margin: 1rem;
+  }
+  .button:hover {
+    color: #3859f3d6;
+    background-color: white;
+  }
+}
