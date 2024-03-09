@@ -10,7 +10,7 @@ import ChatComponent from "./components/ChatComponent/ChatComponent";
 import Profile from "./components/Profile/Profile";
 import StartQuiz from "./components/StartQuiz/StartQuiz";
 import SubjectSelection from "./components/SubjectSelection/SubjectSelection";
-
+import Auth from "./components/Auth/Auth";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../src/store/UserSlice";
@@ -44,17 +44,20 @@ function App() {
             >
               Profile
             </NavLink>
-            <button onClick={handleLogout} className={classes.button}>
-              Logout
-            </button>
+            {isAuthenticated && (
+              <button onClick={handleLogout} className={classes.button}>
+                Logout
+              </button>
+            )}
           </nav>
         )}
       </header>
 
       {/* Rendering the component based on route url */}
       <Routes>
+        <Route path="/" element={<Auth />}></Route>
         <Route
-          path="/"
+          path="/home"
           element={isAuthenticated ? <StartQuiz /> : <Navigate to="/" />}
         ></Route>
         <Route

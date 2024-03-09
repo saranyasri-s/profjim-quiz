@@ -1,0 +1,22 @@
+.Auth {
+  margin-top: 8rem;
+}
+button.authbutton {
+  width: 13rem;
+  padding: 0.8rem 2.2rem;
+  border: 1px solid #8080807a;
+  border-radius: 10px;
+  color: black;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 530;
+  font-size: 1rem;
+}
+button:hover {
+  background-color: #fff2f29c;
+}
+
+.AuthPageImage {
+  height: "300px";
+  width: "300px";
+}
