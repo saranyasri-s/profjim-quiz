@@ -1,0 +1,60 @@
+.subject {
+  width: 60%;
+  margin: auto;
+  margin-top: 12rem;
+}
+.SubjectSelection {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.SubjectSelection > p {
+  font-size: 2rem;
+  color: grey;
+  font-weight: 700;
+}
+.SubjectSelection > label {
+  font-size: 1.3rem;
+  color: grey;
+  font-weight: 500;
+  padding: 1rem;
+  margin-left: 1rem;
+}
+.button {
+  margin-top: 3rem;
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: #3859f3d6;
+  border: 1px solid #3859f3d6;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 200px;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+.button:hover {
+  color: #3859f3d6;
+  background-color: white;
+}
+@media (max-width: 900px) {
+  .button {
+    margin-top: 1rem;
+    padding: 0.2rem;
+    color: white;
+    background-color: #3859f3d6;
+    border: 1px solid #3859f3d6;
+    border-radius: 5px;
+    font-size: 0.5rem;
+    cursor: pointer;
+    width: 50px;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    margin: 1rem;
+  }
+  .button:hover {
+    color: #3859f3d6;
+    background-color: white;
+  }
+}

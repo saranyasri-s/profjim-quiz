@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import classes from "./StartQuiz.module.css";
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function StartQuiz() {
+  const navigate = useNavigate();
+
   return (
     <div className={classes.StartQuiz}>
       <div className={classes.quote}>
@@ -14,7 +18,14 @@ function StartQuiz() {
         continuous learning. Let the joy of exploring new subjects fuel your
         quest for knowledge!
       </div>
-      <button className={classes.button}>Start Quiz </button>
+      <button
+        className={classes.button}
+        onClick={() => {
+          navigate("/subjectSelection");
+        }}
+      >
+        Start Quiz{" "}
+      </button>
     </div>
   );
 }
