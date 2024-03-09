@@ -4,9 +4,14 @@ import classes from "./SubjectSelection.module.css";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { setSubject } from "../../store/subjectSlice";
+// router
+import { useNavigate } from "react-router-dom";
+
 function SubjectSelection() {
   const selectedSubject = useSelector((state) => state.subject);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleSubjectChange = (event) => {
     dispatch(setSubject(event.target.value));
   };
@@ -49,7 +54,14 @@ function SubjectSelection() {
           History
         </label>
       </div>
-      <button className={classes.button}>Submit</button>
+      <button
+        onClick={() => {
+          navigate("/quiz");
+        }}
+        className={classes.button}
+      >
+        Submit
+      </button>
     </div>
   );
 }

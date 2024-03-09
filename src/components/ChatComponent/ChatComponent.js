@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import apikeyy from "../../openai";
 // css
 import classes from "./ChatComponent.module.css";
-
+// redux
+import { useDispatch, useSelector } from "react-redux";
 const ChatComponent = () => {
+  const selectedSubject = useSelector((state) => state.subject);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -59,17 +61,24 @@ const ChatComponent = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={classes.ChatComponent}>
+      <h1> Its your quiz time!</h1>
+      <h3> Lets start the quiz</h3>
+      <h4> Subject: {selectedSubject}</h4>
+      <div className={classes.messages}>
         {messages.map((message, index) => (
-          <div key={index} className={message.role}>
+          <div key={index} className={classes.msg}>
             {message.content}
           </div>
         ))}
       </div>
-      <div>
+      <div className={classes.answers}>
         <input type="text" value={input} onChange={handleInputChange} />
-        <button onClick={handleSendMessage} disabled={loading}>
+        <button
+          className={classes.button}
+          onClick={handleSendMessage}
+          disabled={loading}
+        >
           {loading ? "Sending..." : "Send"}
         </button>
       </div>

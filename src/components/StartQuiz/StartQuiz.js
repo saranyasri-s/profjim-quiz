@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import classes from "./StartQuiz.module.css";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 
 function StartQuiz() {
   const navigate = useNavigate();
