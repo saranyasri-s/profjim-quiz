@@ -172,7 +172,7 @@ const ChatComponent = () => {
                   answerforallQns
                 )}
                 Please provide the feedback and recommendations of topic to study further and improve, along with the calculated score, in the specified JSON format.
-                {feedback:"",recommendations;"",score:"'} in json format, score should be a number of correct answers out of total question, feedback should be string and no nested objects needed`,
+                {feedback:"",recommendations;"",score:"'} in json format, score should should be sum of the studentAnswer for all questions, feedback should be string and no nested objects needed`,
               },
               {
                 role: "user",
