@@ -24,7 +24,8 @@ const ChatComponent = () => {
             messages: [
               {
                 role: "system",
-                content: "You assistant,please help me",
+                content:
+                  "As a teacher, you need to conduct a quiz for your students on the subject of science. The quiz consists of 10 questions with 4 options each. The questions are categorized into three levels: easy, hard, and difficult. If a student does not score enough marks in a particular level, the subsequent questions for that student will be of the same level until they achieve a satisfactory score. Additionally, each question is accompanied by feedback and a hint to assist the student.",
               },
               {
                 role: "user",
