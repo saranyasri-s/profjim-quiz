@@ -1,6 +1,6 @@
 import React from "react";
 
-const Profile = ({ name, email, profilePicture }) => {
+const Profile = () => {
   return (
     <div>
       <p>Old scores:</p>

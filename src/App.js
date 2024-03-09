@@ -8,6 +8,9 @@ import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 // child component
 import ChatComponent from "./components/ChatComponent/ChatComponent";
 import Profile from "./components/Profile/Profile";
+import StartQuiz from "./components/StartQuiz/StartQuiz";
+import SubjectSelection from "./components/SubjectSelection/SubjectSelection";
+
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../src/store/UserSlice";
@@ -51,7 +54,19 @@ function App() {
       {/* Rendering the component based on route url */}
       <Routes>
         <Route
-          path="/profile/:id"
+          path="/"
+          element={isAuthenticated ? <StartQuiz /> : <Navigate to="/" />}
+        ></Route>
+        <Route
+          path="/subjectSelection"
+          element={isAuthenticated ? <SubjectSelection /> : <Navigate to="/" />}
+        ></Route>
+        <Route
+          path="/quiz"
+          element={isAuthenticated ? <ChatComponent /> : <Navigate to="/" />}
+        ></Route>
+        <Route
+          path="/profile"
           element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
         ></Route>
       </Routes>

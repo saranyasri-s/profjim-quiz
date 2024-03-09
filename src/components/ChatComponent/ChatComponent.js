@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+// apikey
 import apikeyy from "../../openai";
+// css
 import classes from "./ChatComponent.module.css";
+
 const ChatComponent = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
