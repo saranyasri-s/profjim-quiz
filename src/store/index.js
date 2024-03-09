@@ -3,6 +3,7 @@ import rootReducer from "./UserSlice";
 import subjectReducer from "./subjectSlice";
 import questionsReducer from "./questionsSlice";
 import answerReducer from "./answerSlice";
+import finalFeedbackReducer from "./finalFeedback";
 import answersAllReducer from "./answersForAllQns";
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     questions: questionsReducer,
     answerFeedback: answerReducer,
     answerForAllQns: answersAllReducer,
+    finalFeedback: finalFeedbackReducer,
   },
 });
 

@@ -9,9 +9,12 @@ const questionsSlice = createSlice({
     setQuestions: (state, action) => {
       return action.payload;
     },
+    clearQuestions:(state)=>{
+      return []
+    }
   },
 });
 
-export const { setQuestions } = questionsSlice.actions;
+export const { setQuestions,clearQuestions } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

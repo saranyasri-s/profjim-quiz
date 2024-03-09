@@ -6,10 +6,12 @@ import classes from "./ChatComponent.module.css";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { setQuestions } from "../../store/questionsSlice";
+import { setQuestions, clearQuestions } from "../../store/questionsSlice";
 import { setAnswerFeedback, clearFeedback } from "../../store/answerSlice";
+import { setFinalFeedback } from "../../store/finalFeedback";
 import { setAllQuestions } from "../../store/answersForAllQns";
 const ChatComponent = () => {
+  let finalFeedback = useSelector((state) => state.finalFeedback);
   let answerforallQns = useSelector((state) => state.answerForAllQns);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
@@ -38,7 +40,7 @@ const ChatComponent = () => {
               messages: [
                 {
                   role: "system",
-                  content: `you are a teacher, you have to conduct a quiz for primary school student, please provide a array of 5 questions in ${selectedSubject} covering 3 topics, 4 qns in each topic in the following format {question:"what is 3+4", options:[1,2,7], topic:"addition",difficultyLevel:"easy", studentAnswer:0}, please npote give the array witount any explanations ,just the array in json format`,
+                  content: `you are a teacher, you have to conduct a quiz for primary school student, please provide a array of 3 questions in ${selectedSubject} covering 3 topics, 1 qns in each topic in the following format {question:"what is 3+4", options:[1,2,7], topic:"addition",difficultyLevel:"easy", studentAnswer:0}, please npote give the array witount any explanations ,just the array in json format`,
                 },
                 {
                   role: "user",
@@ -132,12 +134,69 @@ const ChatComponent = () => {
   };
   const currentQuestion = questions[currentIndex];
   const getNextQuestion = () => {
+    console.log(currentIndex);
     if (currentIndex < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      alert("quiz is over");
+      alert("over");
     }
     dispatch(clearFeedback());
+  };
+  const handleFinalSubmit = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: apikeyy,
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "system",
+                content: `As ChatGPT, I am tasked with evaluating a student quiz in a specific grade. The questions are presented in the following format:
+
+                {
+                  "question": "The question in string format",
+                  "options": ["Choice 1", "Choice 2", ..., "Choice N"],
+                  "topic": "Subtopic related to the subject",
+                  "difficultyLevel": "Easy/Medium/Hard",
+                  "studentAnswer": 0 or 1 (0 indicates a wrong answer, 1 indicates a correct answer)
+                }
+                
+                My role involves offering feedback, covering both positive and negative aspects of the student's performance. Additionally, I am expected to recommend another set of 3 questions based on the student's proficiency in a specific topic and the difficulty level of the questions. The student's score is determined by tallying the number of correct and incorrect answers, and the results are provided in a JSON object.
+                list of all questions with answer status is ${JSON.stringify(
+                  answerforallQns
+                )}
+                Please provide the feedback and recommendations of topic to study further and improve, along with the calculated score, in the specified JSON format.
+                {feedback:"",recommendations;"",score:"'} in json format, score should be a number of correct answers out of total question, feedback should be string and no nested objects needed`,
+              },
+              {
+                role: "user",
+                content: input,
+              },
+            ],
+            model: "gpt-3.5-turbo",
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      let r = data.choices[0].message.content;
+      r = JSON.parse(r);
+      console.log(r);
+      setLoading(false);
+      dispatch(setFinalFeedback(r));
+      //   dispatch(clearQuestions());
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className={classes.ChatComponent}>
@@ -155,8 +214,8 @@ const ChatComponent = () => {
           <div>
             <p>Select the correct answer among the choices given</p>
             <div>
-              <p>{currentQuestion.question}</p>
-              {currentQuestion.options.map((option) => (
+              <p>{currentQuestion?.question}</p>
+              {currentQuestion?.options.map((option) => (
                 <label>
                   <input
                     type="radio"
@@ -169,8 +228,33 @@ const ChatComponent = () => {
                 </label>
               ))}
               {/* {console.log(feedbackForAnswer)} */}
-              <p>{feedbackForAnswer.feedback}</p>
-              {feedbackForAnswer.feedback ? (
+              <p
+                style={{
+                  backgroundColor: "azure",
+                  padding: "1rem",
+                  textTransform: "capitalize",
+                }}
+              >
+                {feedbackForAnswer.feedback}
+              </p>
+              {console.log(finalFeedback)}
+              {finalFeedback && currentIndex > maxIndex ? (
+                <div className={classes.feedback}>
+                  <p>Score: {finalFeedback.score}</p>
+                  <p>Feedback: {finalFeedback.feedback}</p>
+                  <p>Recommendations: {finalFeedback.recommendations}</p>
+                </div>
+              ) : null}
+              {currentIndex > maxIndex ? (
+                <button
+                  className={classes.button}
+                  style={{ width: "200px" }}
+                  onClick={handleFinalSubmit}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Final submit and score"}
+                </button>
+              ) : feedbackForAnswer.feedback ? (
                 <button
                   className={classes.button}
                   onClick={getNextQuestion}
