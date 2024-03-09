@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import apikeyy from "./openai";
 const ChatComponent = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -18,8 +18,7 @@ const ChatComponent = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer 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",
+            Authorization: apikeyy,
           },
           body: JSON.stringify({
             messages: [
