@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
+import { jsxAttribute } from "@babel/types";
 function PieChart({ level, labels, data }) {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
@@ -27,9 +28,20 @@ function PieChart({ level, labels, data }) {
     };
   }, []);
   return (
-    <div style={{ marginTop: "2rem", width: "15rem", height: "13rem" }}>
+    <div
+      style={{
+        marginTop: "5rem",
+        width: "15rem",
+        height: "13rem",
+        display:"flex",
+        flexFlow:"column",
+        justifyContent:"center",
+        alignItems:"center",
+marginBottom:"3rem"
+      }}
+    >
       <h4>{level}</h4>
-      <canvas style={{ width: "13rem", height: "11rem" }} ref={chartRef} />
+      <canvas style={{ width: "13rem", height: "11rem", textAlign:"center" }} ref={chartRef} />
     </div>
   );
 }

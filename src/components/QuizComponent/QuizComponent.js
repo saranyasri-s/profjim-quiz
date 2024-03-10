@@ -372,7 +372,7 @@ function QuizComponent() {
 
           {feedbackForMediumLevelComplete == 1 ? (
             <p
-            style={{
+              style={{
                 color: "#4CAF50",
                 fontStyle: "Italic",
                 fontWeight: "700",
@@ -454,43 +454,50 @@ function QuizComponent() {
               </label>
             )
           )}
-          {feedbackforAnswer && (
+          {feedbackforAnswer ? (
             <p style={{ color: "blue", fontStyle: "Italic" }}>
               {
                 questions.questionsList[presentLevel][qnIndex]
                   .feedbackForCorrectAnswer
               }
             </p>
+          ) : (
+            <p style={{ visibility: "hidden" }}>1</p>
           )}
-          {hintforAnswer && (
+          {hintforAnswer ? (
             <p style={{ color: "red", fontStyle: "Italic" }}>
               {
                 questions.questionsList[presentLevel][qnIndex]
                   .hintForWrongAnswer
               }
             </p>
-          )}
-
-          {buttonStatus === "Submit" ? (
-            <button className={classes.button} onClick={handleSubmit}>
-              Submit
-            </button>
           ) : (
-            <button className={classes.button} onClick={handleNext}>
-              Next
-            </button>
+            <p style={{ visibility: "hidden" }}>1</p>
           )}
+          <div>
+            {buttonStatus === "Submit" ? (
+              <button className={classes.button} onClick={handleSubmit}>
+                Submit
+              </button>
+            ) : (
+              <button className={classes.button} onClick={handleNext}>
+                Next
+              </button>
+            )}
+          </div>
         </div>
       ) : null}
       {feedbackForHardLevelComplete ? (
-        <p               style={{
+        <p
+          style={{
             color: "#4CAF50",
             fontStyle: "Italic",
             fontWeight: "700",
             textAlign: "center",
             padding: "0.7rem",
             backgroundColor: "#51ee5114",
-          }}>
+          }}
+        >
           Fantastic! You have completed the Hard level
         </p>
       ) : null}
@@ -559,7 +566,7 @@ function QuizComponent() {
               labels={["correct", "incorrect"]}
               data={[
                 scores.medium.score,
-                scores.easy.qns - scores.medium.score,
+                scores.medium.qns - scores.medium.score,
               ]}
             ></PieChart>
             <PieChart
