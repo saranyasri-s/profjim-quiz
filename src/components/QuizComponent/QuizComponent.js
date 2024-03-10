@@ -15,7 +15,7 @@ function QuizComponent() {
   const dispatch = useDispatch();
   const selectedSubject = useSelector((state) => state.subject);
   //
-  const [studentaAnswer,setStudentAnswer]=useState("5")
+  const [studentAnswer, setStudentAnswer] = useState("");
   const [buttonStatus, setButtonStatus] = useState("Submit");
   const [finalScore, setFinalScore] = useState(0);
   const [score, setScore] = useState(0);
@@ -23,8 +23,19 @@ function QuizComponent() {
   const [presentLevel, setPresentLevel] = useState("easy");
   const [feedbackforAnswer, setFeedbackforAnswer] = useState(false);
   const [hintforAnswer, setHintforAnswer] = useState(false);
-  const [feedbackForLevelComplete, setFeedbackForLevelComplete] =
-    useState(true);
+  const [feedbackForEasyLevelComplete, setFeedbackForEasyLevelComplete] =
+    useState(0);
+  const [feedbackForEasyLevelFailure, setFeedbackForEasyLevelFailure] =
+    useState(0);
+  const [feedbackForMediumLevelComplete, setFeedbackForMediumLevelComplete] =
+    useState(0);
+  const [feedbackForMediumLevelFailure, setFeedbackForMediumLevelFailure] =
+    useState(0);
+  const [feedbackForHardLevelComplete, setFeedbackForHardLevelComplete] =
+    useState(0);
+  const [feedbackForHardLevelFailure, setFeedbackForHardLevelFailure] =
+    useState(0);
+
   //
   useEffect(() => {
     const handleGetQnsListinJsonFormat = async () => {
@@ -112,6 +123,7 @@ function QuizComponent() {
         r = JSON.parse(r);
         // console.log(r, "parsed");
         dispatch(setQuestions(r));
+        setLoading(false);
       } catch (error) {
         console.error("Error sending message:", error);
       } finally {
@@ -121,21 +133,143 @@ function QuizComponent() {
     handleGetQnsListinJsonFormat();
   }, []);
 
+  const handleSubmit = () => {
+    setFeedbackForEasyLevelComplete(0);
+    setFeedbackForEasyLevelFailure(0);
+    setFeedbackForMediumLevelComplete(0);
+    setFeedbackForMediumLevelFailure(0);
+    setFeedbackForHardLevelComplete(0);
+    setFeedbackForHardLevelFailure(0);
 
-  const handleSubmit=()=>{
-    setButtonStatus("Next")
-if(questions.questionsList[presentLevel][qnIndex].answer==studentaAnswer){
-    setAnswerFeedback(true)
-}else{
-    setHintforAnswer(true)   
-}
-  } 
-  const handleNext=()=>{
-    setButtonStatus("Submit");
-    setAnswerFeedback(false);
+    setButtonStatus("Next");
+    if (
+      questions.questionsList[presentLevel][qnIndex].answer == studentAnswer
+    ) {
+      console.log("correct");
+      setFeedbackforAnswer(true);
+      setScore((prev) => prev + 1);
+    } else {
+      setHintforAnswer(true);
+    }
+  };
+  //   const handleNext = () => {
+  //     setFeedbackforAnswer(false);
+  //     setHintforAnswer(false);
+  //     if (qnIndex == 4 && score >= 3) {
+  //       setFeedbackForEasyLevelComplete(true);
+  //     } else if (qnIndex == 4 && score < 3) {
+  //       setFeedbackForEasyLevelFailure(true);
+  //     }
+  //     if (qnIndex == 9 && score >= 3) {
+  //       setFeedbackForEasyLevelComplete(true);
+  //     } else if (qnIndex == 9 && score < 3) {
+  //       setFeedbackForEasyLevelFailure(true);
+  //     } else {
+  //       setButtonStatus("Submit");
+
+  //       setQnIndex((prev) => prev + 1);
+  //     }
+  //   };
+  const handleNext = () => {
+    setFeedbackforAnswer(false);
     setHintforAnswer(false);
-    setQnIndex(prev=>prev+1)
-  } 
+    setFeedbackForEasyLevelComplete(0);
+    setFeedbackForEasyLevelFailure(0);
+    setFeedbackForMediumLevelComplete(0);
+    setFeedbackForMediumLevelFailure(0);
+    setFeedbackForHardLevelComplete(0);
+    setFeedbackForHardLevelFailure(0);
+    // Check if the current level is easy and index is 4
+    if (presentLevel === "easy" && qnIndex === 4) {
+      if (score >= 3) {
+        console.log(score);
+        setFeedbackForEasyLevelComplete(1);
+        setQnIndex(0);
+        setButtonStatus("Submit");
+        setPresentLevel("medium");
+      } else {
+        console.log(score);
+        setFeedbackForEasyLevelFailure(1);
+        setQnIndex(5);
+        setScore(0);
+        setButtonStatus("Submit");
+      }
+    } else if (presentLevel === "medium" && qnIndex === 4) {
+      if (score >= 3) {
+        console.log(score);
+        setFeedbackForMediumLevelComplete(1);
+        setQnIndex(0);
+        setButtonStatus("Submit");
+        setPresentLevel("hard");
+      } else {
+        console.log(score);
+        setFeedbackForMediumLevelFailure(1);
+        setQnIndex(5);
+        setScore(0);
+        setButtonStatus("Submit");
+      }
+    } else if (presentLevel === "hard" && qnIndex === 4) {
+      if (score >= 3) {
+        console.log(score);
+        setFeedbackForHardLevelComplete(1);
+        dispatch(clearQuestions());
+        setQnIndex(0);
+        setButtonStatus("Submit");
+      } else {
+        console.log(score);
+        setFeedbackForHardLevelFailure(1);
+        setQnIndex(5);
+        setScore(0);
+        setButtonStatus("Submit");
+      }
+    } else if (presentLevel === "easy" && qnIndex === 9) {
+      // Switch to the next level
+      if (score >= 3) {
+        console.log(score);
+        setFeedbackForEasyLevelComplete(2);
+        setQnIndex(0);
+        setButtonStatus("Submit");
+        setPresentLevel("medium");
+      } else {
+        console.log(score);
+        setFeedbackForEasyLevelFailure(2);
+        dispatch(clearQuestions());
+      }
+    } else if (presentLevel === "medium" && qnIndex === 9) {
+      if (score >= 3) {
+        console.log(score);
+        setFeedbackForMediumLevelComplete(2);
+        setQnIndex(0);
+        setButtonStatus("Submit");
+        setPresentLevel("hard");
+      } else {
+        console.log(score);
+        setFeedbackForMediumLevelFailure(2);
+        dispatch(clearQuestions());
+      }
+      // Reset the index
+    } else if (presentLevel === "hard" && qnIndex === 9) {
+      if (score >= 3) {
+        console.log(score);
+        setFeedbackForHardLevelComplete(2);
+        dispatch(clearQuestions());
+        setQnIndex(0);
+        setButtonStatus("Submit");
+      } else {
+        console.log(score);
+        setFeedbackForHardLevelFailure(2);
+        dispatch(clearQuestions());
+      }
+      // Reset the index
+    } else {
+      setButtonStatus("Submit");
+
+      setQnIndex((prev) => prev + 1);
+    }
+  };
+  const handleAnswerSelection = (selectedAnswer) => {
+    setStudentAnswer(selectedAnswer);
+  };
   return (
     <div className={classes.quizComponent}>
       <h1> Its your quiz time!</h1>
@@ -143,12 +277,85 @@ if(questions.questionsList[presentLevel][qnIndex].answer==studentaAnswer){
         Lets start the quiz
       </p>
       <h2> Subject: {selectedSubject}</h2>
-      {loading ? <p>Loading the quiz question</p> : null}
+      {loading ? <p>Loading the quiz questions</p> : null}
 
-      {questions.questionsList && (
+      {questions.questionsList ? (
         <div>
-          <p>Question:</p>
+          {feedbackForEasyLevelComplete == 1 ? (
+            <p style={{ color: "blue" }}>
+              {" "}
+              Fantastic! You have completed the easy level, now is your medium
+              level
+            </p>
+          ) : null}
+          {feedbackForEasyLevelFailure === 1 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              Sorry! You failed the easy level, Please try again with next 5
+              questions as last attempt
+            </p>
+          ) : null}
+          {feedbackForEasyLevelFailure === 2 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              Sorry! You failed at the easy level twice, please learn the basics
+              and try later
+            </p>
+          ) : null}
+
+          {feedbackForMediumLevelComplete == 1 ? (
+            <p style={{ color: "blue" }}>
+              {" "}
+              Fantastic! You have completed the medium level, now is your hard
+              level
+            </p>
+          ) : null}
+          {feedbackForMediumLevelFailure === 1 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              Sorry! You failed the medium level, Please try again with next 5
+              questions as last attempt
+            </p>
+          ) : null}
+          {feedbackForMediumLevelFailure === 2 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              Sorry! You failed at the medium level twice, please learn the
+              basics and try later
+            </p>
+          ) : null}
+
+          {feedbackForHardLevelFailure === 1 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              Sorry! You failed the Hard level, Please try again with next 5
+              questions as last attempt
+            </p>
+          ) : null}
+          {feedbackForHardLevelFailure === 2 ? (
+            <p style={{ color: "red" }}>
+              {" "}
+              Sorry! You failed at the Hard level twice, please learn the
+              concepts in depth and try later
+            </p>
+          ) : null}
+          <p style={{ textTransform: "capitalize" }}>{presentLevel} level </p>
+          <p>Question:{qnIndex + 1}</p>
           <p>{questions.questionsList[presentLevel][qnIndex].question}</p>
+          {questions.questionsList[presentLevel][qnIndex].options.map(
+            (option) => (
+              <label>
+                <input
+                  type="radio"
+                  name="answer"
+                  value="option"
+                  checked={studentAnswer === option}
+                  onChange={() => handleAnswerSelection(option)}
+                />
+                {option}
+              </label>
+            )
+          )}
           {feedbackforAnswer && (
             <p style={{ color: "blue", fontStyle: "Italic" }}>
               {
@@ -164,15 +371,25 @@ if(questions.questionsList[presentLevel][qnIndex].answer==studentaAnswer){
                   .hintForWrongAnswer
               }
             </p>
-          )}{" "}
-        </div>
-      )}
+          )}
 
-      {buttonStatus === "Submit" ? (
-        <button className={classes.button} onClick={handleSubmit}>Submit</button>
-      ) : (
-        <button className={classes.button} onClick={handleNext}>Next</button>
-      )}
+          {buttonStatus === "Submit" ? (
+            <button className={classes.button} onClick={handleSubmit}>
+              Submit
+            </button>
+          ) : (
+            <button className={classes.button} onClick={handleNext}>
+              Next
+            </button>
+          )}
+        </div>
+      ) : null}
+      {feedbackForHardLevelComplete ? (
+        <p style={{ color: "blue" }}>
+          {" "}
+          Fantastic! You have completed the Hard level
+        </p>
+      ) : null}
     </div>
   );
 }
