@@ -7,6 +7,7 @@ import { Routes, Route, NavLink, Navigate, Link } from "react-router-dom";
 
 // child component
 import ChatComponent from "./components/ChatComponent/ChatComponent";
+import QuizComponent from "./components/QuizComponent/QuizComponent";
 import Profile from "./components/Profile/Profile";
 import StartQuiz from "./components/StartQuiz/StartQuiz";
 import SubjectSelection from "./components/SubjectSelection/SubjectSelection";
@@ -72,7 +73,7 @@ function App() {
         ></Route>
         <Route
           path="/quiz"
-          element={isAuthenticated ? <ChatComponent /> : <Navigate to="/" />}
+          element={isAuthenticated ? <QuizComponent /> : <Navigate to="/" />}
         ></Route>
         <Route
           path="/profile"

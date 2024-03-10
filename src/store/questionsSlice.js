@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {};
 
 const questionsSlice = createSlice({
   name: "Questions",
@@ -9,12 +9,12 @@ const questionsSlice = createSlice({
     setQuestions: (state, action) => {
       return action.payload;
     },
-    clearQuestions:(state)=>{
-      return []
-    }
+    clearQuestions: (state) => {
+      return {};
+    },
   },
 });
 
-export const { setQuestions,clearQuestions } = questionsSlice.actions;
+export const { setQuestions, clearQuestions } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

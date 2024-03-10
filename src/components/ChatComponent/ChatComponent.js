@@ -10,6 +10,8 @@ import { setQuestions, clearQuestions } from "../../store/questionsSlice";
 import { setAnswerFeedback, clearFeedback } from "../../store/answerSlice";
 import { setFinalFeedback } from "../../store/finalFeedback";
 import { setAllQuestions } from "../../store/answersForAllQns";
+
+
 const ChatComponent = () => {
   let finalFeedback = useSelector((state) => state.finalFeedback);
   let answerforallQns = useSelector((state) => state.answerForAllQns);
@@ -41,7 +43,60 @@ const ChatComponent = () => {
               messages: [
                 {
                   role: "system",
-                  content: `you are a teacher, you have to conduct a quiz for primary school student, please provide a array of 12 questions in ${selectedSubject} covering 3 topics,4 qns in each topic in the following format {question:"what is 3+4", options:[1,2,7], topic:"addition",difficultyLevel:"easy", studentAnswer:0}, please note give the array witount any explanations ,just the array in json format`,
+                  content: `Create a JSON structure named questionsList that contains three difficulty levels (easy, medium, and hard) of mathematics questions for primary-level students. The questionsList should have a total of 21 easy questions, 15 medium questions, and 9 hard questions.
+
+                  For each difficulty level, generate the specified number of questions with the following details:
+                  - Subject: 'Mathematics'
+                  - The question itself
+                  - Options (an array of 3 integers)
+                  - Correct answer
+                  - Feedback for a correct answer
+                  - Hint for a wrong answer
+                  
+                  Additionally, provide feedback messages for failures and successes at each difficulty level. Ensure that feedback messages are tailored for primary-level students.
+                  
+                  Use the following structure as a reference:
+                  {
+                    'easy': [
+                      {
+                        'Subject': 'Mathematics',
+                        'question': 'What is 5 + 3?',
+                        'options': [6, 7, 8],
+                        'answer': 8,
+                        'feedbackForCorrectAnswer': 'Great job! You got it right!',
+                        'hintForWrongAnswer': 'Count the numbers together to find the sum.'
+                      },
+                      // ... (more easy questions up to a total of 21)
+                    ],
+                    'medium': [
+                      {
+                        'Subject': 'Mathematics',
+                        'question': 'What is 12 x 3?',
+                        'options': [30, 36, 40],
+                        'answer': 36,
+                        'feedbackForCorrectAnswer': 'Amazing! You nailed multiplication.',
+                        'hintForWrongAnswer': 'Multiply the two numbers to find the product.'
+                      },
+                      // ... (more medium questions up to a total of 15)
+                    ],
+                    'hard': [
+                      {
+                        'Subject': 'Mathematics',
+                        'question': 'Solve for x: 2x + 5 = 15',
+                        'options': [5, 7, 10],
+                        'answer': 5,
+                        'feedbackForCorrectAnswer': 'Incredible! You solved the equation.',
+                        'hintForWrongAnswer': 'Subtract 5 from both sides and then divide by 2 to find x.'
+                      },
+                      // ... (more hard questions up to a total of 9)
+                    ],
+                    'feedbackForEasyLevelFailure': 'Don't worry, practice makes perfect! Try again.',
+                    'feedbackForMediumLevelFailure': 'It's okay, learning takes time. Give it another shot.',
+                    'feedbackForHardLevelFailure': 'Keep trying! You're building a strong math foundation.',
+                    'feedbackForEasyLevelSuccess': 'Awesome job! You've mastered the easy questions.',
+                    'feedbackForMediumLevelSuccess': 'Great work! You're getting the hang of the medium-level questions.',
+                    'feedbackForHardLevelSuccess': 'You're doing incredible! You've conquered the hard questions.'
+                  }`,
                 },
                 {
                   role: "user",
@@ -58,6 +113,7 @@ const ChatComponent = () => {
 
         let r = data.choices[0].message.content;
         r = JSON.parse(r);
+        console.log(r);
         dispatch(setQuestions(r));
       } catch (error) {
         console.error("Error sending message:", error);
@@ -67,9 +123,6 @@ const ChatComponent = () => {
     };
     handleGetQnsListinJsonFormat();
   }, []);
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
 
   const handleSendMessage = async () => {
     try {
@@ -103,7 +156,7 @@ const ChatComponent = () => {
 
       let r = data.choices[0].message.content;
       r = JSON.parse(r);
-      console.log(r);
+      //   console.log(r);
 
       dispatch(setAnswerFeedback(r));
       let newQuestions = [...questions];
@@ -130,12 +183,15 @@ const ChatComponent = () => {
       setLoading(false);
     }
   };
+
   const handleAnswerSelection = (selectedAnswer) => {
     setSelectedAnswer(selectedAnswer);
   };
+
   const currentQuestion = questions[currentIndex];
+
   const getNextQuestion = () => {
-    console.log(currentIndex);
+    // console.log(currentIndex);
     if (currentIndex < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
@@ -191,7 +247,7 @@ const ChatComponent = () => {
 
       let r = data.choices[0].message.content;
       r = JSON.parse(r);
-      console.log(r);
+      //   console.log(r);
       setLoading(false);
       dispatch(setFinalFeedback(r));
       //   dispatch(clearQuestions());
@@ -202,85 +258,93 @@ const ChatComponent = () => {
     }
   };
   return (
-    <div className={classes.ChatComponent}>
-      {console.log(answerforallQns)}
-      <h1> Its your quiz time!</h1>
-      <h3> Lets start the quiz</h3>
-      <h4> Subject: {selectedSubject}</h4>
-      <div className={classes.messages}>
-        {messages.map((message, index) => (
-          <div key={index} className={classes.msg}>
-            {message.content}
-          </div>
-        ))}
-        {questions.length ? (
-          <div>
-            <p>Select the correct answer among the choices given</p>
-            <div>
-              <p>{currentQuestion?.question}</p>
-              {currentQuestion?.options.map((option) => (
-                <label>
-                  <input
-                    type="radio"
-                    name="answer"
-                    value="option"
-                    checked={selectedAnswer === option}
-                    onChange={() => handleAnswerSelection(option)}
-                  />
-                  {option}
-                </label>
-              ))}
-              {/* {console.log(feedbackForAnswer)} */}
-              <p
-                style={{
-                  color: "blue",
-                  fontStyle: "Italic",
-                  padding: "1rem",
-                  textTransform: "capitalize",
-                }}
-              >
-                {feedbackForAnswer.feedback}
-              </p>
-              {console.log(finalFeedback)}
-              {finalFeedback && currentIndex > maxIndex ? (
-                <div className={classes.feedback}>
-                  <p>Score: {finalFeedback.score}</p>
-                  <p>Feedback: {finalFeedback.feedback}</p>
-                  <p>Recommendations: {finalFeedback.recommendations}</p>
-                </div>
-              ) : null}
-              {currentIndex > maxIndex ? (
-                <button
-                  className={classes.button}
-                  style={{ width: "200px" }}
-                  onClick={handleFinalSubmit}
-                  disabled={loading}
-                >
-                  {loading ? "Loading..." : "Final submit and score"}
-                </button>
-              ) : feedbackForAnswer.feedback ? (
-                <button
-                  className={classes.button}
-                  onClick={getNextQuestion}
-                  disabled={loading}
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  className={classes.button}
-                  onClick={handleSendMessage}
-                  disabled={loading}
-                >
-                  {loading ? "Loading..." : "Submit"}
-                </button>
-              )}
-            </div>
-          </div>
-        ) : (
-          <p> Please wait, fetching the questions</p>
-        )}
-      </div>
+    // <div className={classes.ChatComponent}>
+    //   {/* {console.log(answerforallQns)} */}
+    //   <h1> Its your quiz time!</h1>
+    //   <p style={{ textDecoration: "underline", fontSize: "1.5rem" }}>
+    //     {" "}
+    //     Lets start the quiz
+    //   </p>
+    //   <h2> Subject: {selectedSubject}</h2>
+    //   <div className={classes.messages}>
+    //     {messages.map((message, index) => (
+    //       <div key={index} className={classes.msg}>
+    //         {message.content}
+    //       </div>
+    //     ))}
+    //     {questions.length ? (
+    //       <div>
+    //         {/* <p>Select the correct answer among the choices given</p> */}
+    //         <div>
+    //           <p style={{ fontSize: "1.3rem" }}>{currentQuestion?.question}</p>
+    //           {currentQuestion?.options.map((option) => (
+    //             <label>
+    //               <input
+    //                 type="radio"
+    //                 name="answer"
+    //                 value="option"
+    //                 checked={selectedAnswer === option}
+    //                 onChange={() => handleAnswerSelection(option)}
+    //               />
+    //               {option}
+    //             </label>
+    //           ))}
+    //           {/* {console.log(feedbackForAnswer)} */}
+    //           <p
+    //             style={{
+    //               color: "blue",
+    //               fontStyle: "Italic",
+    //               padding: "1rem",
+    //               textTransform: "capitalize",
+    //             }}
+    //           >
+    //             {feedbackForAnswer.feedback}
+    //           </p>
+    //           {/* {console.log(finalFeedback)} */}
+    //           {finalFeedback && currentIndex > maxIndex ? (
+    //             <div className={classes.feedback}>
+    //               <p>Score: {finalFeedback.score}</p>
+    //               <p>Feedback: {finalFeedback.feedback}</p>
+    //               <p>Recommendations: {finalFeedback.recommendations}</p>
+    //             </div>
+    //           ) : null}
+    //           {currentIndex > maxIndex ? (
+    //             <button
+    //               className={classes.button}
+    //               style={{ width: "200px" }}
+    //               onClick={handleFinalSubmit}
+    //               disabled={loading}
+    //             >
+    //               {loading ? "Loading..." : "Final submit and score"}
+    //             </button>
+    //           ) : feedbackForAnswer.feedback ? (
+    //             <button
+    //               className={classes.button}
+    //               onClick={getNextQuestion}
+    //               disabled={loading}
+    //             >
+    //               Next
+    //             </button>
+    //           ) : (
+    //             <button
+    //               className={classes.button}
+    //               onClick={handleSendMessage}
+    //               disabled={loading}
+    //             >
+    //               {loading ? "Loading..." : "Submit"}
+    //             </button>
+    //           )}
+    //         </div>
+    //       </div>
+    //     ) : (
+    //       <p> Please wait, fetching the questions</p>
+    //     )}
+    //   </div>
+    // </div>
+
+    <div>
+      <p>qns</p>
+      {console.log(questions)}
     </div>
   );
 };

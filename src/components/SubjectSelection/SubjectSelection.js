@@ -25,8 +25,8 @@ function SubjectSelection() {
           <input
             type="radio"
             name="subject"
-            value="maths"
-            checked={selectedSubject === "maths"}
+            value="Maths"
+            checked={selectedSubject === "Maths"}
             onChange={handleSubjectChange}
           />
           Maths
@@ -36,8 +36,8 @@ function SubjectSelection() {
           <input
             type="radio"
             name="subject"
-            value="science"
-            checked={selectedSubject === "science"}
+            value="Science"
+            checked={selectedSubject === "Science"}
             onChange={handleSubjectChange}
           />
           Science
@@ -47,8 +47,8 @@ function SubjectSelection() {
           <input
             type="radio"
             name="subject"
-            value="history"
-            checked={selectedSubject === "history"}
+            value="History"
+            checked={selectedSubject === "History"}
             onChange={handleSubjectChange}
           />
           History
