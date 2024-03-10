@@ -5,6 +5,7 @@ import questionsReducer from "./questionsSlice";
 import answerReducer from "./answerSlice";
 import finalFeedbackReducer from "./finalFeedback";
 import answersAllReducer from "./answersForAllQns";
+import scoresReducer from "./scoresSlice";
 const store = configureStore({
   reducer: {
     user: rootReducer,
@@ -13,6 +14,7 @@ const store = configureStore({
     answerFeedback: answerReducer,
     answerForAllQns: answersAllReducer,
     finalFeedback: finalFeedbackReducer,
+    scores:scoresReducer
   },
 });
 
