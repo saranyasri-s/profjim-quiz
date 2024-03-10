@@ -76,7 +76,7 @@ function QuizComponent() {
               messages: [
                 {
                   role: "system",
-                  content: `Create a JSON structure named questionsList that contains three difficulty levels (easy, medium, and hard) of mathematics questions for primary-level students. The questionsList should have a total of 21 easy questions, 15 medium questions, and 9 hard questions.
+                  content: `Create a correct JSON structure without backticks in start and end,  named questionsList that contains three difficulty levels (easy, medium, and hard) of mathematics questions for primary-level students. The questionsList should have a total of 21 easy questions, 15 medium questions, and 9 hard questions.
 
                   For each difficulty level, generate the specified number of questions with the following details:
                   - Subject: 'Mathematics'
@@ -129,7 +129,8 @@ function QuizComponent() {
                     'feedbackForEasyLevelSuccess': 'Awesome job! You've mastered the easy questions.',
                     'feedbackForMediumLevelSuccess': 'Great work! You're getting the hang of the medium-level questions.',
                     'feedbackForHardLevelSuccess': 'You're doing incredible! You've conquered the hard questions.'
-                  }, give all 45 questions to conduct the quiz`,
+                  }, 
+                 please very strictly give  all the 45 questions to conduct the quiz in json format, 21 in easy , 15 in medium, 9 in hard`,
                 },
               ],
               model: "gpt-3.5-turbo",
@@ -141,9 +142,10 @@ function QuizComponent() {
         // console.log(data.choices[0].message.content);
 
         let r = data.choices[0].message.content;
+        console.log(r, "before parsing");
         r = JSON.parse(r);
-        console.log(r);
-        dispatch(setQuestions(r));
+        console.log(r, "parsed");
+        // dispatch(setQuestions(r));
       } catch (error) {
         console.error("Error sending message:", error);
       } finally {
