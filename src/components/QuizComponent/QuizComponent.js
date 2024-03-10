@@ -445,10 +445,34 @@ function QuizComponent() {
         </p>
       ) : null}
       {console.log(scores, "scores")}
-      <div>
-        <p>chart</p>
-        <PieChart></PieChart>
-      </div>
+      {feedbackForHardLevelComplete ||
+      feedbackForHardLevelFailure === 2 ||
+      feedbackForMediumLevelFailure === 2 ||
+      feedbackForEasyLevelFailure === 2 ? (
+        <div>
+          <h2> Your Scores </h2>
+          <div className={classes.results}>
+            <PieChart
+              level={"Easy level score"}
+              labels={["correct", "incorrect"]}
+              data={[scores.easy.score, scores.easy.qns - scores.easy.score]}
+            ></PieChart>
+            <PieChart
+              level={"Medium level score"}
+              labels={["correct", "incorrect"]}
+              data={[
+                scores.medium.score,
+                scores.easy.qns - scores.medium.score,
+              ]}
+            ></PieChart>
+            <PieChart
+              level={"Hard level score"}
+              labels={["correct", "incorrect"]}
+              data={[scores.hard.score, scores.hard.qns - scores.hard.score]}
+            ></PieChart>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

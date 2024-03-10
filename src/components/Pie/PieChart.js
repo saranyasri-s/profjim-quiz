@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
-function PieChart() {
+function PieChart({ level, labels, data }) {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
   useEffect(() => {
@@ -11,15 +11,11 @@ function PieChart() {
     chartInstance.current = new Chart(myChartRef, {
       type: "pie",
       data: {
-        labels: ["label1", "label2", "label3"],
+        labels: labels,
         datasets: [
           {
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
+            data: data,
+            backgroundColor: ["#3cd70fd6", "#ff4c0cd6"],
           },
         ],
       },
@@ -31,8 +27,9 @@ function PieChart() {
     };
   }, []);
   return (
-    <div>
-      <canvas style={{ width: "300px", heigth: "200px" }} ref={chartRef} />
+    <div style={{ marginTop: "2rem", width: "15rem", height: "13rem" }}>
+      <h4>{level}</h4>
+      <canvas style={{ width: "13rem", height: "11rem" }} ref={chartRef} />
     </div>
   );
 }
