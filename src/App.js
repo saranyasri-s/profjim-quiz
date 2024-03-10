@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Routes, Route, NavLink, Navigate, Link } from "react-router-dom";
 
 // child component
-import ChatComponent from "./components/ChatComponent/ChatComponent";
+
 import QuizComponent from "./components/QuizComponent/QuizComponent";
 import Profile from "./components/Profile/Profile";
 import StartQuiz from "./components/StartQuiz/StartQuiz";

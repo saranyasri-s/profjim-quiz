@@ -444,8 +444,8 @@ function QuizComponent() {
           </p>
           {questions.questionsList[presentLevel][qnIndex].options.map(
             (option) => (
-              <label>
-                <input
+              <label style={{padding:"1rem"}}>
+                <input style={{padding:"1rem"}}
                   type="radio"
                   name="answer"
                   value="option"
