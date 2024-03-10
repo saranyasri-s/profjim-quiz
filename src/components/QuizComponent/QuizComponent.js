@@ -7,8 +7,10 @@ import classes from "./QuizComponent.module.css";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestions, clearQuestions } from "../../store/questionsSlice";
-import { setAnswerFeedback } from "../../store/answerSlice";
+
 import { setScores } from "../../store/scoresSlice";
+
+import PieChart from "../Pie/PieChart";
 function QuizComponent() {
   let questions = useSelector((state) => state.questions);
   const [loading, setLoading] = useState(false);
@@ -134,7 +136,6 @@ function QuizComponent() {
     handleGetQnsListinJsonFormat();
   }, []);
 
- 
   const handleSubmit = () => {
     setFeedbackForEasyLevelComplete(0);
     setFeedbackForEasyLevelFailure(0);
@@ -186,7 +187,7 @@ function QuizComponent() {
       if (score >= 3) {
         console.log(score);
         setFeedbackForEasyLevelComplete(1);
-        dispatch(setScores({ level: 'easy', score: score, qns: 5 }));
+        dispatch(setScores({ level: "easy", score: score, qns: 5 }));
         setQnIndex(0);
         setButtonStatus("Submit");
         setPresentLevel("medium");
@@ -194,7 +195,7 @@ function QuizComponent() {
       } else {
         console.log(score);
         setFeedbackForEasyLevelFailure(1);
-        dispatch(setScores({ level: 'easy', score: score, qns: 5 }));
+        dispatch(setScores({ level: "easy", score: score, qns: 5 }));
         setQnIndex(5);
         setScore(0);
         setButtonStatus("Submit");
@@ -203,7 +204,7 @@ function QuizComponent() {
       if (score >= 3) {
         console.log(score);
         setFeedbackForMediumLevelComplete(1);
-        dispatch(setScores({ level: 'medium', score: score, qns: 5 }));
+        dispatch(setScores({ level: "medium", score: score, qns: 5 }));
         setQnIndex(0);
         setButtonStatus("Submit");
         setPresentLevel("hard");
@@ -211,7 +212,7 @@ function QuizComponent() {
       } else {
         console.log(score);
         setFeedbackForMediumLevelFailure(1);
-        dispatch(setScores({ level: 'medium', score: score, qns: 5 }));
+        dispatch(setScores({ level: "medium", score: score, qns: 5 }));
         setQnIndex(5);
         setScore(0);
         setButtonStatus("Submit");
@@ -220,7 +221,7 @@ function QuizComponent() {
       if (score >= 3) {
         console.log(score);
         setFeedbackForHardLevelComplete(1);
-        dispatch(setScores({ level: 'hard', score: score, qns: 5 }));
+        dispatch(setScores({ level: "hard", score: score, qns: 5 }));
         dispatch(clearQuestions());
         setQnIndex(0);
         setScore(0);
@@ -228,7 +229,7 @@ function QuizComponent() {
       } else {
         console.log(score);
         setFeedbackForHardLevelFailure(1);
-        dispatch(setScores({ level: 'hard', score: score, qns: 5 }));
+        dispatch(setScores({ level: "hard", score: score, qns: 5 }));
         setQnIndex(5);
         setScore(0);
         setButtonStatus("Submit");
@@ -238,28 +239,52 @@ function QuizComponent() {
       if (score >= 3) {
         console.log(score);
         setFeedbackForEasyLevelComplete(2);
-        dispatch(setScores({ level: 'easy', score: score + scores.easy.score, qns: 10 }));
+        dispatch(
+          setScores({
+            level: "easy",
+            score: score + scores.easy.score,
+            qns: 10,
+          })
+        );
         setQnIndex(0);
         setButtonStatus("Submit");
         setPresentLevel("medium");
       } else {
         console.log(score);
         setFeedbackForEasyLevelFailure(2);
-        dispatch(setScores({ level: 'easy', score: score + scores.easy.score, qns: 10 }));
+        dispatch(
+          setScores({
+            level: "easy",
+            score: score + scores.easy.score,
+            qns: 10,
+          })
+        );
         dispatch(clearQuestions());
       }
     } else if (presentLevel === "medium" && qnIndex === 9) {
       if (score >= 3) {
         console.log(score);
         setFeedbackForMediumLevelComplete(2);
-        dispatch(setScores({ level: 'medium', score: score + scores.medium.score, qns: 10 }));
+        dispatch(
+          setScores({
+            level: "medium",
+            score: score + scores.medium.score,
+            qns: 10,
+          })
+        );
         setQnIndex(0);
         setButtonStatus("Submit");
         setPresentLevel("hard");
       } else {
         console.log(score);
         setFeedbackForMediumLevelFailure(2);
-        dispatch(setScores({ level: 'medium', score: score + scores.medium.score, qns: 10 }));
+        dispatch(
+          setScores({
+            level: "medium",
+            score: score + scores.medium.score,
+            qns: 10,
+          })
+        );
         dispatch(clearQuestions());
       }
       // Reset the index
@@ -267,14 +292,26 @@ function QuizComponent() {
       if (score >= 3) {
         console.log(score);
         setFeedbackForHardLevelComplete(2);
-        dispatch(setScores({ level: 'hard', score: score + scores.hard.score, qns: 10 }));
+        dispatch(
+          setScores({
+            level: "hard",
+            score: score + scores.hard.score,
+            qns: 10,
+          })
+        );
         dispatch(clearQuestions());
         setQnIndex(0);
         setButtonStatus("Submit");
       } else {
         console.log(score);
         setFeedbackForHardLevelFailure(2);
-        dispatch(setScores({ level: 'hard', score: score + scores.hard.score, qns: 10 }));
+        dispatch(
+          setScores({
+            level: "hard",
+            score: score + scores.hard.score,
+            qns: 10,
+          })
+        );
         dispatch(clearQuestions());
       }
       // Reset the index
@@ -408,6 +445,10 @@ function QuizComponent() {
         </p>
       ) : null}
       {console.log(scores, "scores")}
+      <div>
+        <p>chart</p>
+        <PieChart></PieChart>
+      </div>
     </div>
   );
 }
