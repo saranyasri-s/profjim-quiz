@@ -15,7 +15,7 @@ import Auth from "./components/Auth/Auth";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../src/store/UserSlice";
-
+import { clearQuestions } from "./store/questionsSlice";
 function App() {
   const isAuthenticated = useSelector((state) => state.user.uid);
   const dispatch = useDispatch();
@@ -34,6 +34,7 @@ function App() {
           style={{ textDecoration: "none" }}
           to="/home"
           className={classes.QuizTime}
+          onClick={()=>{dispatch(clearQuestions());}}
         >
           QuizTime
         </Link>

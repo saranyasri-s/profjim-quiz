@@ -338,7 +338,8 @@ function QuizComponent() {
 
       {questions.questionsList ? (
         <div>
-          {feedbackForEasyLevelComplete == 1 ? (
+          {feedbackForEasyLevelComplete == 1 ||
+          feedbackForEasyLevelComplete == 2 ? (
             <p
               style={{
                 color: "#4CAF50",
@@ -370,7 +371,8 @@ function QuizComponent() {
             </p>
           ) : null}
 
-          {feedbackForMediumLevelComplete == 1 ? (
+          {feedbackForMediumLevelComplete == 1 ||
+          feedbackForMediumLevelComplete == 2 ? (
             <p
               style={{
                 color: "#4CAF50",
