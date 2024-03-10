@@ -187,6 +187,7 @@ function QuizComponent() {
         setQnIndex(0);
         setButtonStatus("Submit");
         setPresentLevel("medium");
+        setScore(0);
       } else {
         console.log(score);
         setFeedbackForEasyLevelFailure(1);
@@ -201,6 +202,7 @@ function QuizComponent() {
         setQnIndex(0);
         setButtonStatus("Submit");
         setPresentLevel("hard");
+        setScore(0);
       } else {
         console.log(score);
         setFeedbackForMediumLevelFailure(1);
@@ -214,6 +216,7 @@ function QuizComponent() {
         setFeedbackForHardLevelComplete(1);
         dispatch(clearQuestions());
         setQnIndex(0);
+        setScore(0);
         setButtonStatus("Submit");
       } else {
         console.log(score);
@@ -295,13 +298,6 @@ function QuizComponent() {
               questions as last attempt
             </p>
           ) : null}
-          {feedbackForEasyLevelFailure === 2 ? (
-            <p style={{ color: "red" }}>
-              {" "}
-              Sorry! You failed at the easy level twice, please learn the basics
-              and try later
-            </p>
-          ) : null}
 
           {feedbackForMediumLevelComplete == 1 ? (
             <p style={{ color: "blue" }}>
@@ -317,13 +313,6 @@ function QuizComponent() {
               questions as last attempt
             </p>
           ) : null}
-          {feedbackForMediumLevelFailure === 2 ? (
-            <p style={{ color: "red" }}>
-              {" "}
-              Sorry! You failed at the medium level twice, please learn the
-              basics and try later
-            </p>
-          ) : null}
 
           {feedbackForHardLevelFailure === 1 ? (
             <p style={{ color: "red" }}>
@@ -332,13 +321,7 @@ function QuizComponent() {
               questions as last attempt
             </p>
           ) : null}
-          {feedbackForHardLevelFailure === 2 ? (
-            <p style={{ color: "red" }}>
-              {" "}
-              Sorry! You failed at the Hard level twice, please learn the
-              concepts in depth and try later
-            </p>
-          ) : null}
+
           <p style={{ textTransform: "capitalize" }}>{presentLevel} level </p>
           <p>Question:{qnIndex + 1}</p>
           <p>{questions.questionsList[presentLevel][qnIndex].question}</p>
@@ -388,6 +371,26 @@ function QuizComponent() {
         <p style={{ color: "blue" }}>
           {" "}
           Fantastic! You have completed the Hard level
+        </p>
+      ) : null}
+      {feedbackForHardLevelFailure === 2 ? (
+        <p style={{ color: "red" }}>
+          {" "}
+          Sorry! You failed at the Hard level twice, please learn the concepts
+          in depth and try later
+        </p>
+      ) : null}
+      {feedbackForMediumLevelFailure === 2 ? (
+        <p style={{ color: "red" }}>
+          {" "}
+          Sorry! You failed at the medium level twice, please learn the basics
+          and try later
+        </p>
+      ) : null}
+      {feedbackForEasyLevelFailure === 2 ? (
+        <p style={{ color: "red" }}>
+          Sorry! You failed at the easy level twice, please learn the basics and
+          try later
         </p>
       ) : null}
     </div>
