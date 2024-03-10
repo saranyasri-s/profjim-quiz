@@ -76,7 +76,7 @@ function QuizComponent() {
               messages: [
                 {
                   role: "system",
-                  content: `Create a correct JSON structure without backticks in start and end,  named questionsList that contains three difficulty levels (easy, medium, and hard) of mathematics questions for primary-level students. The questionsList should have a total of 21 easy questions, 15 medium questions, and 9 hard questions.
+                  content: `Create a correct JSON structure without backticks in start and end,  named questionsList that contains three difficulty levels (easy, medium, and hard) of mathematics questions for primary-level students. The questionsList should have a total of 30 questions,10 easy questions, 10 medium questions, and 10 hard questions.
 
                   For each difficulty level, generate the specified number of questions with the following details:
                   - Subject: 'Mathematics'
@@ -130,7 +130,7 @@ function QuizComponent() {
                     'feedbackForMediumLevelSuccess': 'Great work! You're getting the hang of the medium-level questions.',
                     'feedbackForHardLevelSuccess': 'You're doing incredible! You've conquered the hard questions.'
                   }, 
-                 please very strictly give  all the 45 questions to conduct the quiz in json format, 21 in easy , 15 in medium, 9 in hard`,
+                 please very strictly give  all the 30 questions to conduct the quiz in json format, 10 in easy , 10 in medium, 10 in hard`,
                 },
               ],
               model: "gpt-3.5-turbo",
