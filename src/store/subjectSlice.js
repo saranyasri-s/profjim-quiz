@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = "maths";
+const initialState = "Maths";
 
 const subjectSlice = createSlice({
   name: "subject",

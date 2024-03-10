@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import apikeyy from "../../openai";
 // css
 import classes from "./QuizComponent.module.css";
-
+import LinearProgress from "@mui/material/LinearProgress";
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestions, clearQuestions } from "../../store/questionsSlice";
@@ -327,23 +327,43 @@ function QuizComponent() {
   return (
     <div className={classes.quizComponent}>
       <h1> Its your quiz time!</h1>
-      <p style={{ textDecoration: "underline", fontSize: "1.5rem" }}>
-        Lets start the quiz
-      </p>
+
       <h2> Subject: {selectedSubject}</h2>
-      {loading ? <p>Loading the quiz questions</p> : null}
+      {loading ? (
+        <div style={{ width: "100%", marginTop: "20px" }}>
+          <LinearProgress color="primary" />
+          <p>Loading the quiz questions</p>
+        </div>
+      ) : null}
 
       {questions.questionsList ? (
         <div>
           {feedbackForEasyLevelComplete == 1 ? (
-            <p style={{ color: "blue" }}>
-              {" "}
+            <p
+              style={{
+                color: "#4CAF50",
+                fontStyle: "Italic",
+                fontWeight: "700",
+                textAlign: "center",
+                padding: "0.7rem",
+                backgroundColor: "#51ee5114",
+              }}
+            >
               Fantastic! You have completed the easy level, now is your medium
               level
             </p>
           ) : null}
           {feedbackForEasyLevelFailure === 1 ? (
-            <p style={{ color: "red" }}>
+            <p
+              style={{
+                color: "red",
+                fontStyle: "Italic",
+                fontWeight: "700",
+                textAlign: "center",
+                padding: "1rem",
+                backgroundColor: "#ff00000a",
+              }}
+            >
               {" "}
               Sorry! You failed the easy level, Please try again with next 5
               questions as last attempt
@@ -351,14 +371,32 @@ function QuizComponent() {
           ) : null}
 
           {feedbackForMediumLevelComplete == 1 ? (
-            <p style={{ color: "blue" }}>
+            <p
+            style={{
+                color: "#4CAF50",
+                fontStyle: "Italic",
+                fontWeight: "700",
+                textAlign: "center",
+                padding: "0.7rem",
+                backgroundColor: "#51ee5114",
+              }}
+            >
               {" "}
               Fantastic! You have completed the medium level, now is your hard
               level
             </p>
           ) : null}
           {feedbackForMediumLevelFailure === 1 ? (
-            <p style={{ color: "red" }}>
+            <p
+              style={{
+                color: "red",
+                fontStyle: "Italic",
+                fontWeight: "700",
+                textAlign: "center",
+                padding: "1rem",
+                backgroundColor: "#ff00000a",
+              }}
+            >
               {" "}
               Sorry! You failed the medium level, Please try again with next 5
               questions as last attempt
@@ -366,16 +404,42 @@ function QuizComponent() {
           ) : null}
 
           {feedbackForHardLevelFailure === 1 ? (
-            <p style={{ color: "red" }}>
+            <p
+              style={{
+                color: "red",
+                fontStyle: "Italic",
+                fontWeight: "700",
+                textAlign: "center",
+                padding: "1rem",
+                backgroundColor: "#ff00000a",
+              }}
+            >
               {" "}
               Sorry! You failed the Hard level, Please try again with next 5
               questions as last attempt
             </p>
           ) : null}
 
-          <p style={{ textTransform: "capitalize" }}>{presentLevel} level </p>
-          <p>Question:{qnIndex + 1}</p>
-          <p>{questions.questionsList[presentLevel][qnIndex].question}</p>
+          <p
+            style={{
+              textTransform: "capitalize",
+              textAlign: "center",
+              color: "#006cff",
+              fontSize: "1.4rem",
+              fontWeight: "700",
+            }}
+          >
+            {presentLevel} level{" "}
+          </p>
+          <p className={classes.questionNumber}>Question: {qnIndex + 1}</p>
+          <p
+            style={{
+              color: "grey",
+              fontSize: "1.4rem",
+            }}
+          >
+            {questions.questionsList[presentLevel][qnIndex].question}
+          </p>
           {questions.questionsList[presentLevel][qnIndex].options.map(
             (option) => (
               <label>
@@ -419,27 +483,60 @@ function QuizComponent() {
         </div>
       ) : null}
       {feedbackForHardLevelComplete ? (
-        <p style={{ color: "blue" }}>
-          {" "}
+        <p               style={{
+            color: "#4CAF50",
+            fontStyle: "Italic",
+            fontWeight: "700",
+            textAlign: "center",
+            padding: "0.7rem",
+            backgroundColor: "#51ee5114",
+          }}>
           Fantastic! You have completed the Hard level
         </p>
       ) : null}
       {feedbackForHardLevelFailure === 2 ? (
-        <p style={{ color: "red" }}>
+        <p
+          style={{
+            color: "red",
+            fontStyle: "Italic",
+            fontWeight: "700",
+            textAlign: "center",
+            padding: "1rem",
+            backgroundColor: "#ff00000a",
+          }}
+        >
           {" "}
           Sorry! You failed at the Hard level twice, please learn the concepts
           in depth and try later
         </p>
       ) : null}
       {feedbackForMediumLevelFailure === 2 ? (
-        <p style={{ color: "red" }}>
+        <p
+          style={{
+            color: "red",
+            fontStyle: "Italic",
+            fontWeight: "700",
+            textAlign: "center",
+            padding: "1rem",
+            backgroundColor: "#ff00000a",
+          }}
+        >
           {" "}
           Sorry! You failed at the medium level twice, please learn the basics
           and try later
         </p>
       ) : null}
       {feedbackForEasyLevelFailure === 2 ? (
-        <p style={{ color: "red" }}>
+        <p
+          style={{
+            color: "red",
+            fontStyle: "Italic",
+            fontWeight: "700",
+            textAlign: "center",
+            padding: "1rem",
+            backgroundColor: "#ff00000a",
+          }}
+        >
           Sorry! You failed at the easy level twice, please learn the basics and
           try later
         </p>
